@@ -1,145 +1,32 @@
 <!DOCTYPE html>
 <html>
- <head>
-    <link rel='stylesheet' href='jameboard.css'>
+
+<head>
+  <link rel='stylesheet' href='url_checker.css'>
+  <title>URL_checker</title>
 </head>
+
 <body>
-<h1>URL checker</h1>
-<div contenteditable='true' id='textarea' data-placeholder1='Use Ctrl + V or click the Paste Button below to paste content'>https://stackoverflow.com/questions/5529718/how-to-detect-internet-speed-in-javascript</div>
+  <h1>URL checker</h1>
+  <div class='textarea_section'>
+    <div contenteditable='true' id='textarea' data-placeholder1='Use Ctrl + V or click the Paste Button below to paste content'></div>
+    <button class='paste'>Paste</button>
+    <button class='format'>Format</button>
+    <button class='clear'>Clear</button>
+    <button class='check'>Check</button>
+    <button class='remove_failed' style='display:none'>Remove failed</button>
+  </div>
+  <div class='result_section'>
+    <div id='result' data-placeholder2='By clicking the check button, all passed url will display here'></div>
+    <div id='number'>Number of URL pass the test:
+      <div>0</div>
+    </div>
+    <button id='copy'>Copy</button>
+    <div id='wrap'>
+      <button id='check_valid'>Check Valid Image</button>
+    </div>
+  </div>
 
-<div id='result' data-placeholder2='By clicking the check button, all passed url will display here'></div>
-<button class='paste'>Paste</button>
-<button class='format'>Format</button>
-<button class='clear'>Clear</button>
-<button class='check'>Check</button>
-<div id='wrap'>
-<button class='remove_failed'>Remove failed</button>
-</div>
+  <script src='url_checker.js'></script>
 
-    <script>
-        let response;
-        const result = document.querySelector('.result')
-        const textarea = document.querySelector('#textarea')
-document.querySelector('.paste').addEventListener('click',function(){
-            navigator.clipboard.readText().then(content=>{
-                textarea.innerHTML = content
-            })
-       
-        })
-        document.querySelector('.format').addEventListener('click',function(){
-            format()
-
-        })
-        document.querySelector('.clear').addEventListener('click',function(){
-               textarea.innerHTML = ""
-        })
-        document.querySelector('.check').addEventListener('click',check)
-
-        function format(){
-            let allcontent = textarea.textContent.trim().toLowerCase()
-            const data = [...allcontent.matchAll(new RegExp('http',"gi"))].map(i=>i.index)
-            console.log(data[0])
-            if(data.length === 0){
-                console.log('no value founded')
-                return;
-            }
-            let urlarray = allcontent.split("http")
-            //remove empty item in array caused by the spit
-            urlarray = urlarray.filter(i=>i!== "")
-            console.log(urlarray)
-            urlarray = urlarray.map((item,index)=>{
-                  console.log(item)
-            if(data[0] !== 0 && index ===0) return item
-            else return `http${item}`
-            })
-            textarea.innerHTML = ""
-            for(let i in urlarray){
-                console.log(urlarray)
-                let spantag = document.createElement('span')
-                spantag.id=`span${i}`
-                spantag.className = 'element'
-                spantag.innerHTML = urlarray[i]
-                textarea.appendChild(spantag)
-                //let br =document.createElement('br')
-                //br.className = 'customlinebreak'
-                textarea.appendChild(document.createElement('br'))
-                textarea.appendChild(document.createElement('br'))
-            }
-        }
-        async function check(){
-             await checkurl();
-             document.querySelectorAll('.pass').forEach(item=>{
-                result.appendChild(item)
-                item.classList.toggle('pass')
-             })
-        }
-        function checkurl(){
-            format()
-           const allvalue = document.querySelectorAll('.element')
-          allvalue.forEach((i,index)=>{
-            let content = i.textContent
-            if(content.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g))
-                i.classList.add('pass')
-            else
-                i.classList.add('fail')
-            let failed = document.querySelector('.remove_failed')
-            failed.style.cursor = 'pointer'
-            failed.addEventListener('click',function(){
-                textarea.querySelectorAll('.fail').forEach(i=>i.remove())
-            })
-})
-}
-        
-    
-
-
-         
-        
-         /*   
-         checkLink = async url => {
-        await fetch("https://stackoverflow.com/questions/59330912/checking-if-a-url-is-valid-in-plain-javascript",{ mode: 'no-cors'},false).then(response =>{
-         console.log(response)
-        if(response.ok){
-                        alert('it worked')
-                    }
-                    else{
-                        throw new Error('Something went wrong');
-                    }
-                })
-var reader = new XMLHttpRequest();
-//asynchronous is true
-reader.open('get', "https://s", true);
-//check each time the ready state changes
-//to see if the object is ready
-reader.onreadystatechange = checkReadyState;
-reader.send()
-function checkReadyState() {
-  if (reader.readyState === 4) {
-    //check to see whether request for the file failed or succeeded
-    if ((reader.status == 200) || (reader.status === 0)) {
-      //page exists - redirect to the clicked url
-     console.log("page exists")
-      // or 
-      // window.open(url)
-    } else {
-      //if the url does not exist
-      alert("No use going there!");
-    }
-  }
-}*/
-
-/*function isValidHttpUrl(string) {
-  let url;
-  
-  try {
-    url = new URL(string);
-  } catch (_) {
-    return false;  
-  }
-
-  return url.protocol === "http:" || url.protocol === "https:";
-}
-console.log(isValidHttpUrl('https://stackpverflow.com////'))*/
-
-    </script>
 </body>
