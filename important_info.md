@@ -13,5 +13,5 @@ If you set mode:no-cors for fetch API, it will work, but the fecth API will alwa
 
 I guess the only solutation on client-side is we could check if the data-structure is correct or use other API to test it. Node.js has method called require("url") to test if URL is valid or we could use external libraray like valid_url, but they are all for server-side.
 
-Code, I tried to test the URL:
+Code, I tried to test the URL, check [here](https://github.com/Caloverys/CheckURL/blob/main/testURL.js).
 
