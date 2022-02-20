@@ -57,4 +57,4 @@ function test(url){
 Access to XMLHttpRequest at ___from origin 'null' has been blocked by CORS policy: 
 No 'Access-Control-Allow-Origin' header is present on the requested resource*/
 
-//For more details: check here: https://github.com/Caloverys/CheckURL/blob/main/README.md
+//For more details: check here: https://github.com/Caloverys/CheckURL/blob/main/important_info.md
