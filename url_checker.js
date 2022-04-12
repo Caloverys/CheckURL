@@ -133,14 +133,31 @@ document.querySelector('.paste').addEventListener('click',function(){
             let content = i.textContent
             //This is the most important and core code in my application 
             /*
-            https? match http or https starting,  
+            https? match http or https (the URL scheme),  
             two '\/' match two "//" (the \ (backslash) is escaping character in regular expression
             (https?:\/\/.)?(www\.) match https:// or www. or http://
             ? is the optional quantifier in regular expression 
+            [-a-zA-Z0-9@:%._\+~#=] refers to all the character set that possible appear in the second level domain that include A - Z a - z 0 - 9 @ : % . _ \ + ~ # = 
+            {2,256} refers to 2 - 256 times which means the regular expression will match URL that only has  second level domain that less than 256 length will be correct 
+
+            \. is refers to dot which is the segmentation  between top-level domain and second level domain
+            [a-z]{2,6} refers to the character possible (length between 2 to 6 character) appear in top-level domain like .com/.ca/.org
+
+            [-a-zA-Z0-9@:%_\+.~#?&//=] match subdirectory (parameter) that include A - Z a - z 0 - 9 @ : % . _ \ + ~ # = 
+            * match 0 or more characters 
+            [-a-zA-Z0-9@:%_\+.~#?&//=]* match any length of A - Z a - z 0 - 9 @ : % . _ \ + ~ # = 
+            /g match a global search that match all occurances since the above code has split the URL and test one by one, it is necessary here
+
+
+
             */
-            console.log('https://hello.co')
-            if(content.match(/(https?:\/\/\.)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g))
-                i.classList.add('pass')
+            const reg = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+           console.log(content, content.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g))
+
+           //use [0] here because content.match return array which is different than string so need to convert to string
+            if (content.match(reg)[0] === content) {
+                i.classList.add('pass')           
+            }
             else
                 i.classList.add('fail')
             let failed = document.querySelector('.remove_failed')
