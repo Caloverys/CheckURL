@@ -1,3 +1,10 @@
+
+/*Make all the elements non selectable except the .result_section and .textarea_section*/
+
+*:not(.result_section):not(.textarea_section){
+  user-select: none;
+}
+
 body {
   background: linear-gradient(black, grey, white);
   background-repeat: no-repeat;
@@ -11,7 +18,11 @@ h1 {
   color: white;
   text-indent: 10px;
 }
-
+h2{
+   display: -webkit-box;
+  -webkit-line-clamp: 2;
+  font-size: 0.5em;
+}
 button {
   text-transform: capitalize;
   cursor: pointer;
