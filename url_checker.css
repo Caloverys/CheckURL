@@ -1,28 +1,23 @@
-
 /*Make all the elements non selectable except the .result_section and .textarea_section*/
 
-*:not(.result_section):not(.textarea_section){
+*:not(.result_section):not(.textarea_section) {
   user-select: none;
 }
 
 body {
-  background: linear-gradient(black, grey, white);
+  background: linear-gradient(black, grey, white 80%);
   background-repeat: no-repeat;
   background-attachment: fixed;
-  font-family: serif !important;
+  font-family: serif;
   cursor: auto;
-  overflow-y: hidden;
 }
 
 h1 {
   color: white;
-  text-indent: 10px;
+  text-indent: 50px;
+  font-size: 2em;
 }
-h2{
-   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  font-size: 0.5em;
-}
+
 button {
   text-transform: capitalize;
   cursor: pointer;
@@ -33,6 +28,7 @@ button {
   padding: 3px 15px 3px 15px;
   font-weight: bolder;
   margin: 10px;
+  user-select: auto !important;
 }
 
 button:hover {
@@ -44,97 +40,120 @@ button:active {
   color: grey;
 }
 
+
+/*by using a parent div (#wrap) we are able to give the button (check_valid_button) both  pointer-events: none; and cursor: not-allowed*/
+
 #wrap {
   cursor: not-allowed !important;
   width: min-content;
-  height: min-content;
-  float: right;
   position: absolute;
-  left: calc(56vw);
+  left: 50%;
+  top: 90%;
 }
 
 #wrap>button {
+  width: min-content;
   pointer-events: none;
   white-space: nowrap;
+  margin: 0px;
 }
 
-.textarea_section button {
-  position: relative;
-  left: calc(5vw);
+#copy {
+  position: absolute;
+  left: 85%;
+  top: 88%;
 }
 
-.result_section button:not(#check_valid) {
-  float: right;
+
+/*custom the position for all button except the button incide #wrap and #copy button*/
+
+button:not(#wrap button):not(#copy) {
   position: relative;
-  left: calc(60vw);
+  left: 5%;
 }
 
 #number {
-  position: relative;
-  float: right;
   text-align: center;
-  right: calc( 0px - 27vw);
-  bottom: calc(0px + 70vh);
+  margin-left: calc(8vw);
   border-radius: 10px;
   width: 25vw;
   height: 15vh;
-  font-size: 22.5px;
+  font-size: calc(1.75vw);
   padding: 5px;
   padding-top: calc(1vh);
   background-color: ghostwhite;
 }
 
 .result_section {
-  position: relative;
-  top: calc(0px - 10vh);
+  float: right;
+  position: absolute;
+  top: 15%;
+  left: 50%;
 }
 
-#number>div {
+#number div {
   color: green;
-  font-size: 1.7em;
+  font-size: calc(3vw);
   margin-top: calc(2vh);
 }
+
+
+/*custom the content for #textarea when nothing is in it*/
 
 #result:empty::before {
   content: attr(data-placeholder2);
   color: rgba(0, 0, 0, 0.5);
 }
 
+
+/*
 #result,
 #textarea {
   overflow-y: scroll;
 }
+*/
+
+
+/* hide the scroll bar for #result and #textarea, this will only work for webkit and chrome*/
 
 #result::-webkit-scrollbar,
-#textarea::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 7px;
-}
-
+#textarea::-webkit-scrollbar,
 #result::-webkit-scrollbar-thumb,
 #textarea::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, .5);
-  box-shadow: 0 0 1px rgba(220, 220, 220, 0.4);
+  appearance: none;
 }
 
 a:visited {
   color: blue;
 }
 
+
+/*in order not to mess up and since css is a layout language, we could use margin instead to custom the position*/
+
 #result {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   width: 40vw;
   height: 40vh;
   background-color: rgba(200, 200, 200);
-  float: right;
   border-radius: 5px;
-  padding: 15px;
+  padding: 20px;
+  margin-top: calc(10vh);
   position: relative;
-  top: calc(-45vh);
-  right: calc(5vw);
-  overflow-y: auto;
 }
+
+
+/*prevent line break for #result (make every a tag display in 1 line) and represent overflowed test use ellipsis (...)*/
+
+#result>a {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+}
+
+
+/*custom the content for #textarea when nothing is in it*/
 
 #textarea:empty::before {
   content: attr(data-placeholder1);
@@ -153,9 +172,10 @@ a:visited {
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  overflow: none;
-  font-family: serif !important;
 }
+
+
+/*costom the height for br*/
 
 br {
   display: block;
@@ -171,18 +191,4 @@ br {
 .fail {
   background-color: rgba(255, 127, 127, 0.95);
   font-weight: bold;
-}
-
-.message {
-  width: 30vw;
-  min-height: 20px;
-  height: max-content;
-  padding: 3px;
-  text-align: center;
-  font-size: 20px;
-  background: rgba(30, 30, 30, 0.9);
-  position: relative;
-  left: calc(50vw - 30vw/2);
-  top: calc(0px - 95vh);
-  background-image: linear-gradient(to right, white, grey, white);
 }
