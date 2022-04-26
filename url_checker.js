@@ -2,9 +2,10 @@ const result = document.querySelector('#result')
 const textarea = document.querySelector('#textarea')
 //Add click EventListenr for paste button
 document.querySelector('.paste').addEventListener('click', function() {
+    textarea.focus()
   navigator.clipboard.readText().then(content => {
     textarea.innerHTML += content
-  })
+  }).catch(i=>{ return false } )
 
 })
 textarea.addEventListener('input', function() {
@@ -34,40 +35,47 @@ document.querySelector('#copy').addEventListener('click', () => {
   //Highlight the content in result (the content going to be copied)
   if (document.selection) {
     const range = document.body.createTextRange();
+
     range.moveToElementText(result);
     range.select();
   } else {
-    //make content in resuled be selected
+    //highlight all the a tag in  #result 
+    console.log('hi')
     const select = window.getSelection();
     const range = document.createRange();
+    console.log(result)
     range.selectNodeContents(result);
     select.removeAllRanges();
     select.addRange(range)
   }
 })
 //Give click EventListener for checkvalid button which will check if the passed URL is a valid image URL
+function addEvent(){
 document.querySelector('#check_valid').addEventListener('click', function() {
   update();
+
   //Loop through all the passed URL
   const existedurl = result.querySelectorAll('a')
-  //if( existedurl == 0)   document.querySelector('#number div').textContent = existedurl.length
-  existedurl.forEach((i, index) => {
+  const brList = result.querySelectorAll('br')
+  if( existedurl == 0)   document.querySelector('#number div').textContent = existedurl.length
+  existedurl.forEach((item,i)=>{
     //Check if the URL is valid image URL by assigning each URL to the href of the img tag
     const img = new Image()
-    img.src = i.href
+    img.src = item.href
     //if img onerror event fire (the url is not valid image URL ), then remove the url and its following br from the result
     img.onerror = () => {
-      i.remove()
-      result.querySelectorAll('br')[index].remove()
+      item.remove()
+      brList[i].remove()
     }
 
-    if (index === result.querySelectorAll('a').length - 1)
+    if (i === 0)
       //use setTimeout here in order to give broswer sometimes to load the image 
       setTimeout(() => document.querySelector('#number div').textContent = [...document.querySelector('#result').querySelectorAll('a')].length, 300)
 
   })
 
 })
+}
 
 function update() {
   const content = ''
@@ -79,6 +87,7 @@ function update() {
             </div>
             `
     document.querySelector('.remove_failed').style.display = 'none'
+
   }
   document.querySelector('#number div').textContent = [...result.querySelectorAll('a')].length
 }
@@ -129,7 +138,7 @@ async function checkurl() {
   await format()
   const allvalue = document.querySelectorAll('#textarea span')
   allvalue.forEach((i, index) => {
-    const content = i.textContent
+    const content = i.innerText
     let isValid = false;
 
 
@@ -138,11 +147,11 @@ async function checkurl() {
     two '\/' ('\/\/') match two "//" (the \ (backslash) is escaping character in regular expression
     (https?:\/\/.)?(www\.) match https:// or www. or http://
     ? is the optional quantifier in regular expression
-    [-a-zA-Z0-9@:%._\+~#=] refers to all the character set that possible appear in the second level domain that include A - Z a - z 0 - 9 @ : % . _ \ + ~ # =
-    {2,256} refers to 2 - 256 times which means the regular expression will match URL that only has  second level domain that less than 256 length will be correct
-    \. is refers to dot  (.) which is the segmentation  between top-level domain and second level domain
+    [-a-zA-Z0-9@:%._\+~#=] refers to all the character set that possible appear in the domain name  that include A - Z a - z 0 - 9 @ : % . _ \ + ~ # =
+    {2,256} refers to 2 - 256 times which means the regular expression will only match URL with domain name that less than 256 length 
+    \. is refers to dot  (.) which is the segmentation  between top-level domain and domain name
     the "\" (backslash) is escaping character in regular expression
-    [a-z]{2,6} refers to the character possible（a-z)  (length between 2 to 6 character) appear in top-level domain like .com/.ca/.org
+    [a-z]{2,6} refers to the character possible（a-z)  (length between 2 to 6 character) appear in top level domains (TLDs) like .com/.ca/.org
     [-a-zA-Z0-9@:%_\+.~#?&//=] match subdirectory (parameter) that includes A - Z a - z 0 - 9 @ : % . _ \ + ~ # = 
     * match 0 or more characters
     [-a-zA-Z0-9@:%_\+.~#?&//=]* match any length of A - Z a - z 0 - 9 @ : % . _ \ + ~ # =  for infinite times
@@ -163,12 +172,11 @@ async function checkurl() {
     if (hostname.split('.').length === 2) isValid = true
     //String.match() return an an array with the macthed part and return null if no content matched
     //check first here to avoid error in the next if statement (content.match(reg)[0] === content)
-    if (!content.match(reg)) {
-      i.classList.add('fail')
-    } else {
+    if (!content.match(reg)) i.classList.add('fail')
+    else 
       //use [0] here because content.match return array which is different than string so need to convert to string
       content.match(reg)[0] === content && isValid ? i.classList.add('pass') : i.classList.add('fail')
-    }
+    
 
 
     const failed = document.querySelector('.remove_failed')
@@ -190,5 +198,39 @@ async function checkurl() {
          left: 50%;
          top: 90%;
          `
+    addEvent()
   }
 }
+
+ /*window.addEventListener('error', function (e) {e.preventDefault();e.stopPropagation();console.log('yes');window.stop()
+ }, false)*/
+
+
+
+
+
+
+
+
+
+/*
+magnet:?xt=urn:btih:123
+
+https://www.readersdigest.ca/wp-content/uploads/2018/07/most-beautiful-trees-dark-hedges.jpg
+
+
+
+https://www.facebook.com/login/?privacy_mutation_token=eyJ0eXBlIjowLCJjcmVhdGlvbl90aW1lIjoxNjUwNDE0Mjc1LCJjYWxsc2l0ZV9pZCI6MzgxMjI5MDc5NTc1OTQ2fQ%3D%3D
+
+https://stackoverflow.com/
+
+https://www.collegeboard.org/
+
+https://www.google.com/?safe=active&ssui=on
+
+https://www.collegeboard.org
+https://invalidURL
+https://wrongURL.ppppppppppp
+*/
+
+
