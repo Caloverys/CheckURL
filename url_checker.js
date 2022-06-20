@@ -202,8 +202,6 @@ async function checkurl() {
   }
 }
 
- /*window.addEventListener('error', function (e) {e.preventDefault();e.stopPropagation();console.log('yes');window.stop()
- }, false)*/
 
 
 
@@ -211,26 +209,5 @@ async function checkurl() {
 
 
 
-
-
-/*
-magnet:?xt=urn:btih:123
-
-https://www.readersdigest.ca/wp-content/uploads/2018/07/most-beautiful-trees-dark-hedges.jpg
-
-
-
-https://www.facebook.com/login/?privacy_mutation_token=eyJ0eXBlIjowLCJjcmVhdGlvbl90aW1lIjoxNjUwNDE0Mjc1LCJjYWxsc2l0ZV9pZCI6MzgxMjI5MDc5NTc1OTQ2fQ%3D%3D
-
-https://stackoverflow.com/
-
-https://www.collegeboard.org/
-
-https://www.google.com/?safe=active&ssui=on
-
-https://www.collegeboard.org
-https://invalidURL
-https://wrongURL.ppppppppppp
-*/
 
 
