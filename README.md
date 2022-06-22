@@ -3,7 +3,7 @@ An application developed to check if the HTML url is valid
 
 [Full Demo](https://codepen.io/caloverys/full/xxYNrJg)
 
-This is the application I made inspire by the way of use image.onload and image.onerror to check if an image url is valid or not.
+This is the application I made inspired by the way of using image.onload and image.onerror to check if an image url is a valid URL or not.
 I start to think if it is possible to test if any url is valid and exlude the url that will cause 404 URL.
 
 
